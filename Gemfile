@@ -1,8 +1,11 @@
 source 'https://rubygems.org'
 
+gem 'ruby' '2.2.3p173'	# Needed by Heroku
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
+gem 'rails-12factor'	# for heroku
+
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 # Use postgreSQL as the database for Active Record
@@ -35,6 +38,8 @@ gem 'unicorn'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+	gem 'rspec'
+	gem 'pry'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 end
