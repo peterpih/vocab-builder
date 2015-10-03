@@ -6,9 +6,13 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class='<%= controller.controller_name %>'>
+  <div id="banner">
+    <%= @page_title || "Vocabulary Builder" %>
+  </div>
 
-<%= yield %>
-
+  <div id="main"
+		<%= yield %>
+	</div>
 </body>
 </html>
