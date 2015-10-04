@@ -2,7 +2,9 @@ class WelcomeController < ApplicationController
 
   # GET /welcome
   def index
-    render text: "Welcome to VocaBuilder!"
+  	#
+  	# if render here, then views/welcome/index.html.erb will not be used
+    # render text: "Welcome to VocaBuilder!"
   end
 
 end

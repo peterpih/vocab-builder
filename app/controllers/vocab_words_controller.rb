@@ -10,6 +10,7 @@ class VocabWordsController < ApplicationController
   # GET /vocab_words/1
   # GET /vocab_words/1.json
   def show
+    @vocab_word = VocabWord.take
   end
 
   # GET /vocab_words/new
