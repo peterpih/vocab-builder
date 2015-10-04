@@ -40,8 +40,7 @@ class VocabWordsController < ApplicationController
       logger.debug "-----u " + u.query.to_s + "-----"
       logger.debug "-----p " + p.to_s + "-----"
 
-      # p is now {"id"=>["4"], "empid"=>["6"]
-      id = p['id'].first
+      id = p['id'].first    # p is now {"id"=>["4"], "empid"=>["6"]
     else
       id = 0
     end
@@ -57,16 +56,27 @@ class VocabWordsController < ApplicationController
     logger.debug "-----next id: " + next_id.to_s + "-----"
     @next_url = u.scheme + "://" + domain + u.path + "?id=" + next_id.to_s
     logger.debug "-----next_url: " + @next_url + "-----"
-    #@vocab_word = VocabWord.find(id.next)
-    #logger.debug @vocab_word.id.to_s
-    #@vocab_word = VocabWord.where("id > ?", id).first
-    #logger.debug "-----back----- " + @vocab_word.id.to_s
-    #@vocab_word = VocabWord.first
 
   end
 
+  def unique_lessons
+    logger.debug "-----unique_lesson-----"
+    @lesson_list = VocabWord.uniq.pluck(:lesson)
+    logger.debug "----" + @lesson_list.to_s + "-----"
+      @lesson_list.each do |d|
+      logger.debug "-----" + d + "-----"
+    end
+    logger.debug @lesson_list.to_s
+    #render text: t.sort
+  end
   # GET /vocab_words/1/edit
   def edit
+  end
+
+  def choose_lesson
+    logger.debug "-----choose_lesson-----"
+    @use_lessons = params["boxtick"]
+    logger.debug "-----" + @use_lessons.to_s
   end
 
   # POST /vocab_words
