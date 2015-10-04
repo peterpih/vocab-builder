@@ -1,0 +1,25 @@
+<%= form_for(@vocab_word) do |f| %>
+  <% if @vocab_word.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@vocab_word.errors.count, "error") %> prohibited this vocab_word from being saved:</h2>
+
+      <ul>
+      <% @vocab_word.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :word %><br>
+    <%= f.text_field :word %>
+  </div>
+  <div class="field">
+    <%= f.label :lesson %><br>
+    <%= f.text_field :lesson %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

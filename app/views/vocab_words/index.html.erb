@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Vocab Words</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Word</th>
+      <th>Lesson</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vocab_words.each do |vocab_word| %>
+      <tr>
+        <td><%= vocab_word.word %></td>
+        <td><%= vocab_word.lesson %></td>
+        <td><%= link_to 'Show', vocab_word %></td>
+        <td><%= link_to 'Edit', edit_vocab_word_path(vocab_word) %></td>
+        <td><%= link_to 'Destroy', vocab_word, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Vocab word', new_vocab_word_path %>
