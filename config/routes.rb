@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'say/hello'
   get 'say/goodbye'
+  get 'vocab_words/next'
   #get 'vocab_words/index'
 
   resources :vocab_words
