@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: vocab-builder_production
-  username: vocab-builder
-  password: <%= ENV['VOCAB-BUILDER_DATABASE_PASSWORD'] %>
+  #username: vocab-builder
+  #password: <%= ENV['VOCAB-BUILDER_DATABASE_PASSWORD'] %>
