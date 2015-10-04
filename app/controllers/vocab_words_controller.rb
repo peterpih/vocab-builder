@@ -32,11 +32,10 @@ class VocabWordsController < ApplicationController
     logger.debug "-----query " + u.query.to_s + "-----"
     domain = u.host
     if (domain == "localhost")
-      logger.debug "-----localhost-----"
       domain = domain + ":3000"
     end
     logger.debug "-----domain " + domain + "-----"
-    if u
+    if u.query
       p = CGI.parse(u.query)
       logger.debug "-----u " + u.query.to_s + "-----"
       logger.debug "-----p " + p.to_s + "-----"
