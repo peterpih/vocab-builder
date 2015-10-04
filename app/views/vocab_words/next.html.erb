@@ -3,12 +3,12 @@
 <br>
 <br>
 <br>
-<font size="72"><%= @vocab_word.word %></font>
+<center><font size="72"><%= @vocab_word.word %></font></center>
 <br>
 <br>
 <br>
 <br>
-<%= link_to "Back To Top", root_path %> |
-<%= link_to "Next Word", @next_url %>
 
+<center><%= link_to "Next Word", @next_url %></center>
+<%= link_to "Finished", root_path %>
 <p> <%= Time.now %>
