@@ -4,3 +4,26 @@
 		<br>
     <%=  d %> 
 	<% end %>
+<br>
+<br>
+<h1>Chosen Words:</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Word</th>
+      <th>Lesson</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @quiz_word.each do |d| %>
+      <tr>
+        <td><%= d.word %></td>
+        <td><%= d.lesson %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<p><%= link_to 'Start Word Quiz', :quiz_init%></p>

@@ -1,0 +1,17 @@
+
+<br>
+<br>
+<br>
+<br>
+<center><font size="72"><%= @vocab_word.word %></font></center>
+<br>
+<br>
+<br>
+<br>
+
+<center>
+<%= link_to " Miss  ", :quiz_miss %> | 
+<%= link_to "CORRECT", :quiz_correct %>
+</center>
+<%= link_to "Finished", root_path %>
+<p> <%= Time.now %>

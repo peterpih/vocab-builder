@@ -21,6 +21,34 @@ class VocabWordsController < ApplicationController
     @vocab_word = VocabWord.new
   end
 
+ # GET /vocab_words/1/edit
+  def edit
+  end
+
+  def quiz_init
+    logger.debug "-----quiz_init-----"
+    @quiz_total = 0
+    @quiz_count = 0
+    @quiz_correct = 0
+    redirect_to :quiz_next
+  end
+
+  def quiz_correct
+    @quiz_correct += 1
+    redirect_to :quiz_next
+  end
+
+  def quiz_miss
+    @quiz_word += @quiz_word[@quiz_count]
+    redirect_to :quiz_next
+  end
+
+  def quiz_next
+    logger.debug "-----quiz_next-----"
+    logger.debug "-----" + @quiz_word.to_s + "-----"
+    #@vocab_word = @quiz_word(@quiz_count)
+  end
+
   def next
     logger.debug "-----next-----"
     url = request.original_url
@@ -67,16 +95,18 @@ class VocabWordsController < ApplicationController
       logger.debug "-----" + d + "-----"
     end
     logger.debug @lesson_list.to_s
-    #render text: t.sort
-  end
-  # GET /vocab_words/1/edit
-  def edit
   end
 
   def choose_lesson
     logger.debug "-----choose_lesson-----"
     @use_lessons = params["boxtick"]
     logger.debug "-----" + @use_lessons.to_s
+
+    @quiz_word = []
+    @use_lessons.each do |d|
+      @quiz_word += VocabWord.where("lesson=?", d)
+      logger.debug @quiz_word
+    end
   end
 
   # POST /vocab_words
