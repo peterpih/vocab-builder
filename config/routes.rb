@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   get 'say/hello'
   get 'say/goodbye'
   #get 'vocab_words/next'
+  get :unique_lesson, to: "vocab_words#unique_lessons", as: :unique_lesson
   get 'vocab_words/unique_lessons'
-  get 'vocab_words/choose_lesson'
+  #get 'vocab_words/choose_lesson'
   get :choose_lesson, to: "vocab_words#choose_lesson", as: :choose_lesson
   get :quiz_init, to: "vocab_words#quiz_init", as: :quiz_init
   get :quiz_next, to: "vocab_words#quiz_next", as: :quiz_next

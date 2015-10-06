@@ -18,6 +18,7 @@ class VocabWordsController < ApplicationController
 
   # GET /vocab_words/new
   def new
+    logger.debug "-----new-----"
     @vocab_word = VocabWord.new
   end
 
@@ -112,8 +113,9 @@ class VocabWordsController < ApplicationController
   # POST /vocab_words
   # POST /vocab_words.json
   def create
+    logger.debug "-----create-----"
     @vocab_word = VocabWord.new(vocab_word_params)
-
+    logger.debug "-----before do-----"
     respond_to do |format|
       if @vocab_word.save
         format.html { redirect_to @vocab_word, notice: 'Vocab word was successfully created.' }
