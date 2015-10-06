@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @stop_watch.start %>
+</p>
+
+<p>
+  <strong>Stop:</strong>
+  <%= @stop_watch.stop %>
+</p>
+
+<%= link_to 'Edit', edit_stop_watch_path(@stop_watch) %> |
+<%= link_to 'Back', stop_watches_path %>

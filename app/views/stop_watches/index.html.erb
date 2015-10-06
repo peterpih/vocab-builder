@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Stop Watches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start</th>
+      <th>Stop</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stop_watches.each do |stop_watch| %>
+      <tr>
+        <td><%= stop_watch.start %></td>
+        <td><%= stop_watch.stop %></td>
+        <td><%= link_to 'Show', stop_watch %></td>
+        <td><%= link_to 'Edit', edit_stop_watch_path(stop_watch) %></td>
+        <td><%= link_to 'Destroy', stop_watch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stop watch', new_stop_watch_path %>
