@@ -51,7 +51,7 @@ class VocabWordsController < ApplicationController
   end
 
   def next
-    logger.debug "-----next-----"
+    logger.debug "-----next-----" + session.id.to_s
     url = request.original_url
     logger.debug "=====" + url.to_s + "====="
     u = URI.parse(url)
