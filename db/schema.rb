@@ -11,10 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151004000946) do
+ActiveRecord::Schema.define(version: 20151008232506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "result_lists", force: :cascade do |t|
+    t.string   "sessionid"
+    t.string   "type"
+    t.string   "value"
+    t.integer  "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stop_watches", force: :cascade do |t|
+    t.string   "start"
+    t.string   "stop"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "sessionid"
+  end
 
   create_table "vocab_words", force: :cascade do |t|
     t.string   "word"

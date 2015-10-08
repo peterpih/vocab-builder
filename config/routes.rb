@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :result_lists
   get 'say/hello'
   get 'say/goodbye'
   get :next_word, to: "vocab_words#next", as: :next_word

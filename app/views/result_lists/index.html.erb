@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Result Lists</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sessionid</th>
+      <th>Type</th>
+      <th>Value</th>
+      <th>Order</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @result_lists.each do |result_list| %>
+      <tr>
+        <td><%= result_list.sessionid %></td>
+        <td><%= result_list.type %></td>
+        <td><%= result_list.value %></td>
+        <td><%= result_list.order %></td>
+        <td><%= link_to 'Show', result_list %></td>
+        <td><%= link_to 'Edit', edit_result_list_path(result_list) %></td>
+        <td><%= link_to 'Destroy', result_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Result list', new_result_list_path %>

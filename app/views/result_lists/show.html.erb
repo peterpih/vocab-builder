@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sessionid:</strong>
+  <%= @result_list.sessionid %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @result_list.type %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @result_list.value %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @result_list.order %>
+</p>
+
+<%= link_to 'Edit', edit_result_list_path(@result_list) %> |
+<%= link_to 'Back', result_lists_path %>
