@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :result_lists
+
+
+
   get 'say/hello'
   get 'say/goodbye'
   get :next_word, to: "vocab_words#next", as: :next_word
@@ -14,6 +16,8 @@ Rails.application.routes.draw do
   #get 'vocab_words/index'
 
   resources :vocab_words
+  resources :result_lists
+  resources :stop_watches
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,0 +1,25 @@
+<%= form_for(@stop_watch) do |f| %>
+  <% if @stop_watch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@stop_watch.errors.count, "error") %> prohibited this stop_watch from being saved:</h2>
+
+      <ul>
+      <% @stop_watch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :start %><br>
+    <%= f.text_field :start %>
+  </div>
+  <div class="field">
+    <%= f.label :stop %><br>
+    <%= f.text_field :stop %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
