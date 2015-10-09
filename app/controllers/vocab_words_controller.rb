@@ -28,14 +28,20 @@ class VocabWordsController < ApplicationController
 
   def quiz_init
     logger.debug "-----quiz_init-----"
-    @quiz_total = 0
-    @quiz_count = 0
-    @quiz_correct = 0
+    result_list = ResultList.new
+    result_list.sessionid = session.id.to_s
+    result_list.descrip = "correct"
+    result_list.s_value = ""
+    result_list.i_value = 0
+    result_list.seq = 0
+    result_list.save
+
     redirect_to :quiz_next
   end
 
   def quiz_correct
-    @quiz_correct += 1
+    index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
+    ResultList.update(index.id, :i_value => index.i_value+1)
     redirect_to :quiz_next
   end
 
@@ -44,10 +50,25 @@ class VocabWordsController < ApplicationController
     redirect_to :quiz_next
   end
 
+  def quiz_finish
+    logger.debug "-----quiz_finish-----"
+    index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
+    @word_count = index.i_value
+    index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
+    @word_correct = index.i_value
+  end
+
   def quiz_next
     logger.debug "-----quiz_next-----"
-    logger.debug "-----" + @quiz_word.to_s + "-----"
-    #@vocab_word = @quiz_word(@quiz_count)
+    index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
+    @result_list = ResultList.where("sessionid=? and seq > ?", session.id.to_s, index.seq).first
+    if (@result_list.nil?)
+      index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
+      @word_count = index.i_value
+      redirect_to :quiz_finish
+    else
+      ResultList.update(index.id, :i_value => index.i_value+1, :seq => @result_list.seq)
+    end
   end
 
   def next
@@ -108,6 +129,35 @@ class VocabWordsController < ApplicationController
       @quiz_word += VocabWord.where("lesson=?", d)
       logger.debug @quiz_word
     end
+
+    # delete previous list
+    result_lists = ResultList.where("sessionid=?", session.id.to_s)
+    logger.debug "-----" + result_lists.to_s + "+++++"
+    result_lists.each do |d|
+      ResultList.delete(d.id)
+    end
+    #result_lists.delete_all
+    #logger.debug "---" + d.to_s + "---"
+    #end
+
+    k = 1
+    @quiz_word.each do |d|
+      result_list = ResultList.new
+      result_list.sessionid = session.id.to_s
+      result_list.descrip = "word"
+      result_list.s_value = d.word
+      result_list.seq = k
+      result_list.save
+      logger.debug "-----save " + d.word + "-----" + k.to_s
+      k += 1
+    end
+    result_list = ResultList.new
+    result_list.sessionid = session.id.to_s
+    result_list.descrip = "seq"
+    result_list.s_value = ""
+    result_list.i_value = 0
+    result_list.seq = 0
+    result_list.save
   end
 
   # POST /vocab_words
