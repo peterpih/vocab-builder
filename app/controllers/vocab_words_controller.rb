@@ -141,6 +141,7 @@ class VocabWordsController < ApplicationController
     #end
 
     k = 1
+    @quiz_word.shuffle!
     @quiz_word.each do |d|
       result_list = ResultList.new
       result_list.sessionid = session.id.to_s
