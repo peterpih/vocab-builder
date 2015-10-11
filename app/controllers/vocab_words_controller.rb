@@ -36,6 +36,14 @@ class VocabWordsController < ApplicationController
     result_list.seq = 0
     result_list.save
 
+    result_list = ResultList.new
+    result_list.sessionid = session.id.to_s
+    result_list.descrip = "starttime"
+    result_list.s_value = ""
+    result_list.i_value = Time.now.seconds_since_midnight
+    result_list.seq = 0
+    result_list.save
+
     redirect_to :quiz_next
   end
 
@@ -57,6 +65,19 @@ class VocabWordsController < ApplicationController
 
   def quiz_finish
     logger.debug "-----quiz_finish-----"
+    finish_time = Time.now.seconds_since_midnight.to_i
+    logger.debug "--" + finish_time.to_s
+    result_list = ResultList.new
+    result_list.sessionid = session.id.to_s
+    result_list.descrip = "endtime"
+    result_list.s_value = ""
+    result_list.i_value = finish_time
+    result_list.seq = 0
+    result_list.save
+    index = ResultList.where("sessionid=? and descrip='starttime'", session.id.to_s).first
+    logger.debug "---" + index.i_value.to_s
+    @elapsed_time = (finish_time - index.i_value).to_s
+
     index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
     @word_count = index.i_value
     index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first

@@ -5,6 +5,7 @@
 <br>
 <center>
 	<h2>Total words: <%= @word_count.to_s %></h2>
+	<h2>Completed Time: <%= @elapsed_time %> secs</h2>
 	<h1><font color="lime">Number correct: <%= @word_correct.to_s %></font></h1>
 	<h1><font color="red">Number missed: <%= (@word_count - @word_correct).to_s %></font></h1>
 	<br>
@@ -25,7 +26,7 @@
 </table>
 </center>
 <br>
-<center><h2>Completed Time:</h2></center>
+
 <br>
 <br>
 <br>
