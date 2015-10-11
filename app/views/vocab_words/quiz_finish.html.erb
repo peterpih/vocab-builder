@@ -3,8 +3,27 @@
 <br>
 <br>
 <br>
-<center><h1>Number correct: <%= @word_correct.to_s %></h1></center>
-<center><h2>Number of words: <%= @word_count.to_s %></h2></center>
+<center>
+	<h2>Total words: <%= @word_count.to_s %></h2>
+	<h1><font color="lime">Number correct: <%= @word_correct.to_s %></font></h1>
+	<h1><font color="red">Number missed: <%= (@word_count - @word_correct).to_s %></font></h1>
+	<br>
+<table>
+  <thead>
+    <tr>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @missed_words.each do |d| %>
+      <tr>
+        <h2><font color="red"><%= d.s_value %></font></h2>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</center>
 <br>
 <center><h2>Completed Time:</h2></center>
 <br>

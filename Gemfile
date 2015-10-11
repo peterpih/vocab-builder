@@ -35,6 +35,8 @@ gem 'unicorn'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'heroku'
+
 group :development, :test do
 	gem 'rspec'
 	gem 'pry'

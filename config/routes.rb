@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get :choose_lesson, to: "vocab_words#choose_lesson", as: :choose_lesson
   get :quiz_init, to: "vocab_words#quiz_init", as: :quiz_init
   get :quiz_next, to: "vocab_words#quiz_next", as: :quiz_next
+  get :quiz_miss, to: "vocab_words#quiz_miss", as: :quiz_miss
   get :quiz_finish, to: "vocab_words#quiz_finish", as: :quiz_finish
   get :quiz_correct, to: "vocab_words#quiz_correct", as: :quiz_correct
   #get 'vocab_words/index'

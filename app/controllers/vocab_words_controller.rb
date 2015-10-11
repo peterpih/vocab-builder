@@ -40,13 +40,18 @@ class VocabWordsController < ApplicationController
   end
 
   def quiz_correct
+    logger.debug "-----quiz_correct-----"
     index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
     ResultList.update(index.id, :i_value => index.i_value+1)
     redirect_to :quiz_next
   end
 
   def quiz_miss
-    @quiz_word += @quiz_word[@quiz_count]
+    logger.debug "-----quiz_miss-----"
+    #@quiz_word += @quiz_word[@quiz_count]
+    index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
+    result_list = ResultList.where("sessionid=? and seq=?", session.id.to_s, index.seq).first
+    ResultList.update(result_list.id, :descrip => "missed")
     redirect_to :quiz_next
   end
 
@@ -56,6 +61,14 @@ class VocabWordsController < ApplicationController
     @word_count = index.i_value
     index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
     @word_correct = index.i_value
+    #
+    # get missed words
+    #
+    @missed_words = ResultList.where("sessionid=? and descrip='missed'", session.id.to_s)
+    @missed_words.each do |d|
+      logger.debug "--" + d.s_value
+    end
+    logger.debug "-----missed: " + @missed_words.to_s
   end
 
   def quiz_next
