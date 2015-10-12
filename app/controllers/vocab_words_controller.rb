@@ -147,6 +147,7 @@ class VocabWordsController < ApplicationController
     logger.debug "-----unique_lesson-----"
     @lesson_list = VocabWord.uniq.pluck(:lesson)
     logger.debug "----" + @lesson_list.to_s + "-----"
+    @lesson_list = @lesson_list.sort_by {|d| d.downcase}
       @lesson_list.each do |d|
       logger.debug "-----" + d + "-----"
     end
@@ -160,7 +161,7 @@ class VocabWordsController < ApplicationController
 
     @quiz_word = []
     @use_lessons.each do |d|
-      @quiz_word += VocabWord.where("lesson=?", d)
+      @quiz_word += VocabWord.where("lesson=?", d).sort(:lesson)
       logger.debug @quiz_word
     end
 
