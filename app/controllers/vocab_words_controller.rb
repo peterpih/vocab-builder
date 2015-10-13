@@ -161,7 +161,7 @@ class VocabWordsController < ApplicationController
 
     @quiz_word = []
     @use_lessons.each do |d|
-      @quiz_word += VocabWord.where("lesson=?", d).sort(:lesson)
+      @quiz_word += VocabWord.where("lesson=?", d)
       logger.debug @quiz_word
     end
 
