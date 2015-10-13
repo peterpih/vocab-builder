@@ -4,8 +4,8 @@
 <%= form_tag(choose_lesson_path, method: "get") do %>
 	<% @lesson_list.each do |d| %>
 		<br>
-    <%= check_box_tag "boxtick[]", d %> 
-    <%= label_tag "botxtick[]", d %>
+    <%= check_box_tag d, d %> 
+    <%= label_tag d, d %>
 	<% end %>
 	<br>
 	<br>
