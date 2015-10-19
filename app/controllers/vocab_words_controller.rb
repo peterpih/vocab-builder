@@ -202,6 +202,7 @@ class VocabWordsController < ApplicationController
     logger.debug "-----create-----"
     @vocab_word = VocabWord.new(vocab_word_params)
     logger.debug "-----before do-----"
+    logger.debug "---" + vocab_word_params.to_s
     respond_to do |format|
       if @vocab_word.save
         format.html { redirect_to @vocab_word, notice: 'Vocab word was successfully created.' }

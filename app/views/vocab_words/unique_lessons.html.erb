@@ -5,10 +5,11 @@
 	<% @lesson_list.each do |d| %>
 		<br>
     <%= check_box_tag  "boxtick[]", d %> 
-    <%= label_tag  "boxtick[" + d + "]", d %>
+    <%= label_tag d %>
 	<% end %>
 	<br>
 	<br>
+<%= link_to 'Back To Top', root_path %> | 
 	<%= submit_tag("Submit") %>
 <% end %>
 <br>
@@ -17,6 +18,7 @@
 <%= form_tag("/search", method: "get") do %>
   <%= label_tag(:q, "Search for:") %>
   <%= text_field_tag(:q) %>
+  <%= submit_tag("Search") %>
   <%= submit_tag("Search") %>
 <% end %>
 
