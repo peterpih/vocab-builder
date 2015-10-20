@@ -156,8 +156,8 @@ class VocabWordsController < ApplicationController
 
   def choose_lesson
     logger.debug "-----choose_lesson-----"
-    @use_lessons = params["boxtick"]
-    logger.debug "-----" + @use_lessons.to_s
+    @use_lessons = params[:checkbox]
+    logger.debug "-----" + params.to_s
 
     @quiz_word = []
     @use_lessons.each do |d|

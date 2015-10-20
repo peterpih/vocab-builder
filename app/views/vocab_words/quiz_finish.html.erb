@@ -3,7 +3,6 @@
 <br>
 <br>
 <br>
-<center>
 	<h2>Total words: <%= @word_count.to_s %></h2>
 	<h2>Completed Time: <%= @elapsed_time %> secs</h2>
 	<h1><font color="lime">Number correct: <%= @word_correct.to_s %></font></h1>
@@ -24,14 +23,13 @@
     <% end %>
   </tbody>
 </table>
-</center>
 <br>
 
 <br>
 <br>
 <br>
 <br>
-<center><font size="72"><%= link_to "Finished!", root_path %></font></center>
+<font size="72"><%= link_to "Finished!", root_path %></font>
 <br>
 <br>
 
