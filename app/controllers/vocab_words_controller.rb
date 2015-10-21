@@ -157,10 +157,10 @@ class VocabWordsController < ApplicationController
   def choose_lesson
     logger.debug "-----choose_lesson-----"
     @use_lessons = params[:checkbox]
-    logger.debug "-----" + params.to_s
+    logger.debug "-----" + params[:checkbox].to_s
 
     @quiz_word = []
-    @use_lessons.each do |d|
+    @use_lessons.each do |d, y|
       @quiz_word += VocabWord.where("lesson=?", d)
       logger.debug @quiz_word
     end
