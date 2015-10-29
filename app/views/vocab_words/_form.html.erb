@@ -11,15 +11,16 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :word %><br>
+  <div id="big"></div>
+  <div class="field" id="word-field">
+    <%= f.label :word %>
     <%= f.text_field :word %>
   </div>
-  <div class="field">
-    <%= f.label :lesson %><br>
+  <div class="field" id="lesson-field">
+    <%= f.label :lesson %>
     <%= f.text_field :lesson %>
   </div>
   <div class="actions">
-    <%= f.submit "Hello", class: "my_styled_button" %>
+    <%= f.submit "Submit", class: "my_styled_button" %>
   </div>
 <% end %>

@@ -2,8 +2,33 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .my_styled_button{
-  color: "red";
-  width: 400px;
-  height: 400px;
+	font-size:36px;
+  background-color: "red";
+  width: 200px;
+  height: 200px;
   /*add any other properties you want to style*/
+  border-color: blue;
+  border_style: dashed;
+}
+.field {
+	background-color: red;
+}
+
+.lesson-field{
+	font-size: 36px;
+}
+
+#big{
+	height:200px;
+	width:200px;
+	background-color: yellow;
+	border-style: dashed;
+	border-color: blue;
+}
+#word-field{
+	height:100px;
+	width:200px;
+	background-color: yellow;
+	border-style: dashed;
+	border-color: blue;
 }
