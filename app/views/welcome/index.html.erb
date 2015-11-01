@@ -1,12 +1,15 @@
 
-
+<script type="text/javascript", src="javascript/button.js"></script>
 <h1>in views/welcome/index.html.erb</h1>
 <h1>This is a(nother) deployment test</h1>
 <body>
 <p><%= link_to 'Say Examples', say_hello_path %></p>
 <p><%= link_to 'Add New Words', new_vocab_word_path %></p>
 <p><%= link_to 'Show Word List', vocab_words_path %></p>
-<p><%= link_to 'Word Quiz', :unique_lesson %></p>
-<p><%= link_to 'Choose Lesson', :unique_lesson %></p>
-<p><%= link_to 'Next', :next_word %></p>
+<div id="word-quiz-link"><%= link_to 'Word Quiz', :unique_lesson %></div>
+<a class="button"><%= link_to 'Click Me', :unique_lesson %></a>
+<p class="blue"><%= link_to 'Next', :next_word %></p>
+
+<a id="word-quiz-link" href="/unique_lesson">Word Quiz</a>
 </body>
+
