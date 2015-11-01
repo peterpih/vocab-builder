@@ -52,6 +52,8 @@ group :development do
   gem 'spring'
 end
 
+gem 'haml'
+
 gem 'rails_12factor', '~> 0.0.3', group: :production	# for heroku
 
 
