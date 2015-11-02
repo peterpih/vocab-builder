@@ -1,0 +1,18 @@
+
+<br>
+<br>
+<br>
+<br>
+%p{class: 'button', }= @result_list.s_value 
+<br>
+<br>
+<br>
+<br>
+<br>
+%a= link_to "CORRECT", :quiz_correct, {class: 'button-inline'}
+%a= link_to "Miss", :quiz_miss, {class: 'button-inline'}
+<br>
+<br>
+<br>
+<%= link_to "Cancel", root_path %>
+<p> <%= Time.now %>
