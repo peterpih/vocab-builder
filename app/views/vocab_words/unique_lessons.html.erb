@@ -2,15 +2,15 @@
 <br>
 <br>
 <%= form_tag(choose_lesson_path, method: "get") do %>
-	<% @lesson_list.each do |d| %>
-		<br>
+  <% @lesson_list.each do |d| %>
+    <br>
     <%= check_box_tag "checkbox[#{d}]", d %>
     <%= label_tag "checkbox[#{d}]", d %>
-	<% end %>
-	<br>
-	<br>
-%p= link_to 'Back To Top', root_path:, {class: 'med_button'}
-	<%= submit_tag("Submit", class: 'big_button') %>
+  <% end %>
+  <br>
+  <br>
+  <%= link_to 'Back', vocab_words_path, {class: 'med_button'} %> 
+  <%= submit_tag("Submit", class: 'med_button') %>
 <% end %>
 <br>
 <br>
@@ -26,4 +26,3 @@
 <%= label_tag(:pet_dog, "I own a dog") %>
 <%= check_box_tag(:pet_cat) %>
 <%= label_tag(:pet_cat, "I own a cat") %>
-

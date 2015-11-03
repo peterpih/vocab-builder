@@ -69,6 +69,7 @@ a.button:hover{
 	background: blue;
 }
 .big_button{
+  text-decoration: none;
 	text-align:center;
 	font-size: 36px;
 	font: bold 3.2em/100px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
@@ -78,11 +79,21 @@ a.button:hover{
 	border-style: solid;
 	border-color: black;
 	border-radius: 50px;
-	padding: 10px
+  margin: 0px 0px 0px 0px;
+  padding: 10px;
+  transition: all 1s ease;
+
+  &.big_button:hover{
+    text-decoration: none;
+    background-color: red;
+    transform: scale(1.25);
+  }
 }
+
 .med_button{
+  text-decoration: none;
 	text-align:center;
-	font-size: 36px;
+	font-size: 18px;
 	font: bold 1.6em/50px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	height:50px;
 	width:150px;
@@ -90,11 +101,20 @@ a.button:hover{
 	border-style: solid;
 	border-color: black;
 	border-radius: 50px;
-	padding: 10px
+	padding: 10px;
+	margin: 0px 0px 0px 0px;
+  padding: 0px;
+	transition: all 1s ease;
+
+	&.med_button:hover{
+    background-color: red;
+    transform: scale(1.25);
+	}
 }
 
 
 .sml_button{
+  text-decoration: none;
 	text-align:center;
 	font-size: 18px;
 	font: bold 0.8em/25px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
@@ -104,8 +124,14 @@ a.button:hover{
 	border-style: solid;
 	border-color: black;
 	border-radius: 50px;
-	padding: 10px
+	padding: 10px;
+
+  &.sml_button:hover{
+    background-color: red;
+    transform: scale(1.25);
+  }
 }
+
 
 .index_buttons{
 	block: block;
@@ -126,9 +152,11 @@ a.button:hover{
 	border-style: solid;
 	border-color: red;
 }
+
 div#word-quiz-link:hover{
     background: red;
     height: 40px;
     padding: 20px;
+    transform: scale(1.25);
 }
 

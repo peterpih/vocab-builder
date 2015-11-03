@@ -1,18 +1,14 @@
 
+%br
+%br
+%br
+%p.big_button= link_to @result_list.s_value, :quiz_correct
+%br
+%br
+%br
+%br
+%br
+%p.med_button= link_to "Miss", :quiz_miss
 <br>
-<br>
-<br>
-<br>
-%p{class: 'button', }= @result_list.s_value 
-<br>
-<br>
-<br>
-<br>
-<br>
-%a= link_to "CORRECT", :quiz_correct, {class: 'button-inline'}
-%a= link_to "Miss", :quiz_miss, {class: 'button-inline'}
-<br>
-<br>
-<br>
-<%= link_to "Cancel", root_path %>
-<p> <%= Time.now %>
+%p.med_button= link_to "Cancel", root_path
+%p= Time.now
