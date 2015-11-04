@@ -5,12 +5,11 @@
 	%a= link_to 'Word Quiz', :unique_lesson, {class: 'big_button'}
 	%br
 	%br
-	%p.med_button= link_to 'Add Words', new_vocab_word_path
-	%br
-	%p.med_button= link_to 'Word List', vocab_words_path
+	%a= link_to 'Add Words', new_vocab_word_path, {class: 'med_button'}
+	%a= link_to 'Word List', vocab_words_path, {class: 'med_button'}
 	%br
 %div.buttons_in_line
-	%p.med_button= link_to 'Say Examples', say_hello_path
-	%p.med_button= link_to 'Click Me', :unique_lesson
-	%p.med_button= link_to 'Next', :next_word
+	%a= link_to 'Say Examples', say_hello_path, {class: 'med_button'}
+	%a= link_to 'Click Me', :unique_lesson, {class: 'med_button'}
+	%a= link_to 'Next', :next_word, {class: 'med_button'}
 
