@@ -165,6 +165,12 @@ class VocabWordsController < ApplicationController
       logger.debug @quiz_word
     end
 
+    @quiz_word2 = []
+    @use_lessons.each do |d, y|
+      @quiz_word2 += VocabWord.where("lesson=?", d)
+      logger.debug @quiz_word2
+    end
+
     # delete previous list
     result_lists = ResultList.where("sessionid=?", session.id.to_s)
     logger.debug "-----" + result_lists.to_s + "+++++"
@@ -176,15 +182,16 @@ class VocabWordsController < ApplicationController
     #end
 
     k = 1
-    @quiz_word.shuffle!
-    @quiz_word.each do |d|
+    #@quiz_word2 = @quiz_word
+    @quiz_word2.shuffle!
+    @quiz_word.zip(@quiz_word2).each do |d1, d2|
       result_list = ResultList.new
       result_list.sessionid = session.id.to_s
       result_list.descrip = "word"
-      result_list.s_value = d.word
+      result_list.s_value = d1.word + " " + d2.word
       result_list.seq = k
       result_list.save
-      logger.debug "-----save " + d.word + "-----" + k.to_s
+      logger.debug "-----save " + d1.word + d2.word + "-----" + k.to_s
       k += 1
     end
     result_list = ResultList.new
