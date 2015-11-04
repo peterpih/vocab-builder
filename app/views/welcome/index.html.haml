@@ -1,15 +1,18 @@
 
 <script type="text/javascript", src="javascript/button.js"></script>
 %p in views/welcome/index.html.erb
-%section.index_buttons
-	%a= link_to 'Word Quiz', :unique_lesson, {class: 'big_button'}
-	%br
-	%br
-	%a= link_to 'Add Words', new_vocab_word_path, {class: 'med_button'}
-	%a= link_to 'Word List', vocab_words_path, {class: 'med_button'}
-	%br
-%div.buttons_in_line
-	%a= link_to 'Say Examples', say_hello_path, {class: 'med_button'}
-	%a= link_to 'Click Me', :unique_lesson, {class: 'med_button'}
-	%a= link_to 'Next', :next_word, {class: 'med_button'}
+%div#whole_page
+	%div#nav_column
+		%a= link_to 'Say Examples', say_hello_path, {class: 'nav_button'}
+		%a= link_to 'Click Me', :unique_lesson, {class: 'nav_button'}
+		%a= link_to 'Next', :next_word, {class: 'sml_button'}
+		%a= link_to 'Next', :next_word, {class: 'sml_button'}
+	%section#body_column
+		%a= link_to 'Word Quiz', :unique_lesson, {class: 'big_button'}
+		%br
+		%br
+		%a= link_to 'Add Words', new_vocab_word_path, {class: 'med_button'}
+		%a= link_to 'Word List', vocab_words_path, {class: 'med_button'}
+		%br
+
 

@@ -1,14 +1,16 @@
 
 %br
 %br
+%div#whole_page
+	%div#nav_column
+		%a= link_to "Miss", :quiz_miss, {class: 'nav_button'}
+		%a= link_to "Cancel", root_path, {class: 'nav_button'}
+	%section#body_column
+		%a= link_to @result_list.s_value, :quiz_correct, {class: 'word_button'}
 %br
-%a= link_to @result_list.s_value, :quiz_correct, {class: 'big_button'}
 %br
 %br
 %br
 %br
-%br
-%a= link_to "Miss", :quiz_miss, {class: 'med_button'}
-<br>
-%a= link_to "Cancel", root_path, {class: 'med_button'}
+
 %p= Time.now
