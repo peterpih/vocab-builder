@@ -2,13 +2,13 @@
 %br
 %br
 %br
-%p.big_button= link_to @result_list.s_value, :quiz_correct
+%a= link_to @result_list.s_value, :quiz_correct, {class: 'big_button'}
 %br
 %br
 %br
 %br
 %br
-%p.med_button= link_to "Miss", :quiz_miss
+%a= link_to "Miss", :quiz_miss, {class: 'med_button'}
 <br>
-%p.med_button= link_to "Cancel", root_path
+%a= link_to "Cancel", root_path, {class: 'med_button'}
 %p= Time.now

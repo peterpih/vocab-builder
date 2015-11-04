@@ -2,7 +2,7 @@
 <script type="text/javascript", src="javascript/button.js"></script>
 %p in views/welcome/index.html.erb
 %section.index_buttons
-	%p.big_button= link_to 'Word Quiz', :unique_lesson
+	%a= link_to 'Word Quiz', :unique_lesson, {class: 'big_button'}
 	%br
 	%br
 	%p.med_button= link_to 'Add Words', new_vocab_word_path

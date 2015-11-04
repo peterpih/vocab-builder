@@ -85,8 +85,12 @@ a.button:hover{
 
   &.big_button:hover{
     text-decoration: none;
-    background-color: red;
-    transform: scale(1.25);
+    background-color: none;
+  }
+
+  &.big_button:click{
+    text-decoration: none;
+    background-color: black;
   }
 }
 
