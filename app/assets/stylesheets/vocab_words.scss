@@ -131,13 +131,22 @@ whole_page{
 
 .word_button{
   @extend #nav_column;
-  @extend .sml_button;
+  @extend .button;
 
-    width: 150px;
-    border-style: solid;
+    font-size: 36px;
+    width: 400px;
+    border-style: dashed;
     margin: auto;
     float: left;
-    padding: 20px
+    padding: 20px;
+
+  &:hover{
+    background-color: none;
+  }
+  &:click{
+    background-color: red;
+    border-style: solid;
+  }
 }
 
 .buttons_in_line{
@@ -153,3 +162,6 @@ whole_page{
 	border-color: red;
 }
 
+.blue{
+  background-color: blue;
+}

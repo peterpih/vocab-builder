@@ -28,13 +28,23 @@ class VocabWordsController < ApplicationController
 
   def quiz_init
     logger.debug "-----quiz_init-----"
-    result_list = ResultList.new
-    result_list.sessionid = session.id.to_s
-    result_list.descrip = "correct"
-    result_list.s_value = ""
-    result_list.i_value = 0
-    result_list.seq = 0
-    result_list.save
+    first = ResultList.first
+
+    index_list = ResultList.new
+    index_list.sessionid = session.id.to_s
+    index_list.descrip = "index"
+    index_list.s_value = ""
+    index_list.i_value = 0
+    index_list.seq = 0 # first.seq
+    index_list.save
+    # logger.debug "-----quiz_init-----" + first.id.to_s + "+++"
+    # result_list = ResultList.new
+    # result_list.sessionid = session.id.to_s
+    # result_list.descrip = "index"
+    # result_list.s_value = ""
+    # result_list.i_value = first.id
+    # result_list.seq = 0
+    # result_list.save
 
     result_list = ResultList.new
     result_list.sessionid = session.id.to_s
@@ -49,18 +59,38 @@ class VocabWordsController < ApplicationController
 
   def quiz_correct
     logger.debug "-----quiz_correct-----"
-    index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
-    ResultList.update(index.id, :i_value => index.i_value+1)
+    index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
+    @result_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq).first
+ 
+    index_list.update(seq: @result_list.seq)
+
     redirect_to :quiz_next
   end
 
   def quiz_miss
     logger.debug "-----quiz_miss-----"
     #@quiz_word += @quiz_word[@quiz_count]
-    index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
-    result_list = ResultList.where("sessionid=? and seq=?", session.id.to_s, index.seq).first
+    index = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
+    result_list = ResultList.where("sessionid=? and seq=?", session.id.to_s, index_list.seq).first
     ResultList.update(result_list.id, :descrip => "missed")
     redirect_to :quiz_next
+  end
+
+  def quiz_next
+    logger.debug "-----quiz_next-----"
+    index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
+    @result_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq).first
+    if (@result_list.nil?)
+      index = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
+      @word_count = ResultList.where("descrip='word'").count
+      redirect_to :quiz_finish
+    end
+    # else
+    #   logger.debug "-----update index_list-----"
+    #   index_list.seq += 1
+    #   index_list.update
+    #   #ResultList.update(index.id, :i_value => index.i_value+1, :seq => @result_list.seq)
+    # end
   end
 
   def quiz_finish
@@ -78,10 +108,11 @@ class VocabWordsController < ApplicationController
     logger.debug "---" + index.i_value.to_s
     @elapsed_time = (finish_time - index.i_value).to_s
 
-    index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
+    index = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
     @word_count = index.i_value
-    index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
-    @word_correct = index.i_value
+    # index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
+    # @word_correct = index.i_value
+    @word_correct = 0
     #
     # get missed words
     #
@@ -92,42 +123,29 @@ class VocabWordsController < ApplicationController
     logger.debug "-----missed: " + @missed_words.to_s
   end
 
-  def quiz_next
-    logger.debug "-----quiz_next-----"
-    index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
-    @result_list = ResultList.where("sessionid=? and seq > ?", session.id.to_s, index.seq).first
-    if (@result_list.nil?)
-      index = ResultList.where("sessionid=? and descrip='seq'", session.id.to_s).first
-      @word_count = index.i_value
-      redirect_to :quiz_finish
-    else
-      ResultList.update(index.id, :i_value => index.i_value+1, :seq => @result_list.seq)
-    end
-  end
-
   def next
     logger.debug "-----next-----" + session.id.to_s
-    url = request.original_url
-    logger.debug "=====" + url.to_s + "====="
-    u = URI.parse(url)
-    logger.debug "-----scheme " + u.scheme + "-----"
-    logger.debug "-----host " + u.host + "-----"
-    logger.debug "-----path " + u.path + "-----"
-    logger.debug "-----query " + u.query.to_s + "-----"
-    domain = u.host
-    if (domain == "localhost")
-      domain = domain + ":3000"
-    end
-    logger.debug "-----domain " + domain + "-----"
-    if u.query
-      p = CGI.parse(u.query)
-      logger.debug "-----u " + u.query.to_s + "-----"
-      logger.debug "-----p " + p.to_s + "-----"
+    # url = request.original_url
+    # logger.debug "=====" + url.to_s + "====="
+    # u = URI.parse(url)
+    # logger.debug "-----scheme " + u.scheme + "-----"
+    # logger.debug "-----host " + u.host + "-----"
+    # logger.debug "-----path " + u.path + "-----"
+    # logger.debug "-----query " + u.query.to_s + "-----"
+    # domain = u.host
+    # if (domain == "localhost")
+    #   domain = domain + ":3000"
+    # end
+    # logger.debug "-----domain " + domain + "-----"
+    # if u.query
+    #   p = CGI.parse(u.query)
+    #   logger.debug "-----u " + u.query.to_s + "-----"
+    #   logger.debug "-----p " + p.to_s + "-----"
 
-      id = p['id'].first    # p is now {"id"=>["4"], "empid"=>["6"]
-    else
-      id = 0
-    end
+    #   id = p['id'].first    # p is now {"id"=>["4"], "empid"=>["6"]
+    # else
+    #   id = 0
+    # end
     logger.debug "-----id: " + id.to_s + "-----"
     #redirect_to @new_url
     #
@@ -140,18 +158,12 @@ class VocabWordsController < ApplicationController
     logger.debug "-----next id: " + next_id.to_s + "-----"
     @next_url = u.scheme + "://" + domain + u.path + "?id=" + next_id.to_s
     logger.debug "-----next_url: " + @next_url + "-----"
-
   end
 
   def unique_lessons
     logger.debug "-----unique_lesson-----"
     @lesson_list = VocabWord.uniq.pluck(:lesson)
-    logger.debug "----" + @lesson_list.to_s + "-----"
     @lesson_list = @lesson_list.sort_by {|d| d.downcase}
-      @lesson_list.each do |d|
-      logger.debug "-----" + d + "-----"
-    end
-    logger.debug @lesson_list.to_s
   end
 
   def choose_lesson
@@ -172,35 +184,31 @@ class VocabWordsController < ApplicationController
     end
 
     # delete previous list
-    result_lists = ResultList.where("sessionid=?", session.id.to_s)
+    #result_lists = ResultList.where("sessionid=?", session.id.to_s)
+    result_lists = ResultList.all
     logger.debug "-----" + result_lists.to_s + "+++++"
-    result_lists.each do |d|
-      ResultList.delete(d.id)
-    end
+    result_lists.delete_all
+    # result_lists.each do |d|
+    #   ResultList.delete(d.id)
+    # end
     #result_lists.delete_all
     #logger.debug "---" + d.to_s + "---"
     #end
 
-    k = 1
+    sequence = 1
     #@quiz_word2 = @quiz_word
+    @quiz_word2.shuffle!
     @quiz_word2.shuffle!
     @quiz_word.zip(@quiz_word2).each do |d1, d2|
       result_list = ResultList.new
       result_list.sessionid = session.id.to_s
       result_list.descrip = "word"
       result_list.s_value = d1.word + " " + d2.word
-      result_list.seq = k
+      result_list.seq = sequence
       result_list.save
-      logger.debug "-----save " + d1.word + d2.word + "-----" + k.to_s
-      k += 1
+      logger.debug "-----save " + d1.word + " " + d2.word + "-----" + sequence.to_s
+      sequence += 1
     end
-    result_list = ResultList.new
-    result_list.sessionid = session.id.to_s
-    result_list.descrip = "seq"
-    result_list.s_value = ""
-    result_list.i_value = 0
-    result_list.seq = 0
-    result_list.save
   end
 
   # POST /vocab_words
@@ -224,6 +232,7 @@ class VocabWordsController < ApplicationController
   # PATCH/PUT /vocab_words/1
   # PATCH/PUT /vocab_words/1.json
   def update
+    logger.debug "-----update-----"
     respond_to do |format|
       if @vocab_word.update(vocab_word_params)
         format.html { redirect_to @vocab_word, notice: 'Vocab word was successfully updated.' }

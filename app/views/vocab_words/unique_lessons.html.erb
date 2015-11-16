@@ -3,7 +3,6 @@
 <br>
 
 <%= form_tag(choose_lesson_path, method: "get") do %>
-  <div font-size:36pt>
   <% @lesson_list.each do |d| %>
     <br>
     <%= check_box_tag "checkbox[#{d}]", d %>
@@ -13,6 +12,7 @@
   <br>
   <br>
   <%= link_to 'Back', vocab_words_path, {class: 'med_button'} %> 
+  <%= link_to 'New', choose_lesson_path, {class: 'med_button'} %> 
   <div class='med_button'>
   <%= submit_tag("Submit", class: 'submit_button') %>
   </div>
