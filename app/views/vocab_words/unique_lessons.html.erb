@@ -8,13 +8,12 @@
     <%= check_box_tag "checkbox[#{d}]", d %>
     <%= label_tag "checkbox[#{d}]", d %>
   <% end %>
-  </div>
   <br>
   <br>
-  <%= link_to 'Back', vocab_words_path, {class: 'med_button'} %> 
+  <%= link_to 'Back', root_path, {class: 'med_button'} %> 
   <%= link_to 'New', choose_lesson_path, {class: 'med_button'} %> 
   <div class='med_button'>
-  <%= submit_tag("Submit", class: 'submit_button') %>
+  <%= submit_tag("Button", class: 'submit_button') %>
   </div>
   <% end %>
 

@@ -163,7 +163,14 @@ class VocabWordsController < ApplicationController
   def unique_lessons
     logger.debug "-----unique_lesson-----"
     @lesson_list = VocabWord.uniq.pluck(:lesson)
-    @lesson_list = @lesson_list.sort_by {|d| d.downcase}
+    # logger.debug @lesson_list.to_s
+    # logger.debug "----" + @lesson_list.to_s + "-----"
+    # @lesson_list = @lesson_list.sort_by {|d| d.downcase}
+    @lesson_list
+      @lesson_list.each do |d|
+      logger.debug "-----" + d + "-----"
+    end
+    # logger.debug @lesson_list.to_s
   end
 
   def choose_lesson
