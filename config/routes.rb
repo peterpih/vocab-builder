@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get :quiz_miss, to: "vocab_words#quiz_miss", as: :quiz_miss
   get :quiz_finish, to: "vocab_words#quiz_finish", as: :quiz_finish
   get :quiz_correct, to: "vocab_words#quiz_correct", as: :quiz_correct
+  get :quiz_test, to: "vocab_words#quiz_test", as: :quiz_test
   #get :top to: "welcome#index", as: :top
   #get 'vocab_words/index'
 

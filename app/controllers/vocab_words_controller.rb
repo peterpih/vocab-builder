@@ -61,36 +61,46 @@ class VocabWordsController < ApplicationController
     logger.debug "-----quiz_correct-----"
     index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
     @result_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq).first
- 
-    index_list.update(seq: @result_list.seq)
 
     redirect_to :quiz_next
   end
 
   def quiz_miss
     logger.debug "-----quiz_miss-----"
-    #@quiz_word += @quiz_word[@quiz_count]
-    index = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
-    result_list = ResultList.where("sessionid=? and seq=?", session.id.to_s, index_list.seq).first
-    ResultList.update(result_list.id, :descrip => "missed")
+    index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
+    miss_list = ResultList.where("sessionid=? and descrip='word' and seq=?", session.id.to_s, index_list.seq.to_s).first
+    logger.debug "----->" + miss_list.seq.to_s
+    last = ResultList.order(seq: "desc").first
+    logger.debug "--->" + last.seq.to_s
+    logger.debug "-->" + miss_list.descrip
+    miss_list.update(seq: last.seq+1)
+
     redirect_to :quiz_next
   end
 
   def quiz_next
     logger.debug "-----quiz_next-----"
     index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
-    @result_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq).first
+    logger.debug "----" + index_list.seq.to_s
+    word_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq)
+    @result_list = word_list.order(seq: 'asc').first
     if (@result_list.nil?)
       index = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
       @word_count = ResultList.where("descrip='word'").count
       redirect_to :quiz_finish
-    end
-    # else
+    else
+      index_list.update(seq: @result_list.seq)
     #   logger.debug "-----update index_list-----"
     #   index_list.seq += 1
     #   index_list.update
     #   #ResultList.update(index.id, :i_value => index.i_value+1, :seq => @result_list.seq)
-    # end
+    end
+  end
+
+  def quiz_test
+    logger.debug "-----quiz_test-----"
+    q = ResultList.order(seq: "desc").first
+    logger.debug q.seq.to_s
   end
 
   def quiz_finish

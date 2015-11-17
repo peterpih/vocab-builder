@@ -61,6 +61,10 @@ class ResultListsController < ApplicationController
     end
   end
 
+  def type_count
+    ResultList.where(params[:type]).count
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_result_list
