@@ -163,30 +163,16 @@ class VocabWordsController < ApplicationController
       logger.debug @quiz_word2
     end
 
-    # delete previous list
-    #result_lists = ResultList.where("sessionid=?", session.id.to_s)
     result_lists = ResultList.all
-    logger.debug "-----" + result_lists.to_s + "+++++"
     result_lists.delete_all
-    # result_lists.each do |d|
-    #   ResultList.delete(d.id)
-    # end
-    #result_lists.delete_all
-    #logger.debug "---" + d.to_s + "---"
-    #end
 
     sequence = 1
-    #@quiz_word2 = @quiz_word
     @quiz_word2.shuffle!
     @quiz_word2.shuffle!
     @quiz_word.zip(@quiz_word2).each do |d1, d2|
-      result_list = ResultList.new
-      result_list.sessionid = session.id.to_s
-      result_list.descrip = "word"
-      result_list.s_value = d1.word + " " + d2.word
-      result_list.seq = sequence
+      s = d1.word + " " + d2.word
+      result_list = ResultList.new({sessionid: session.id.to_s, descrip: "word", s_value: s, seq: sequence})
       result_list.save
-      logger.debug "-----save " + d1.word + " " + d2.word + "-----" + sequence.to_s
       sequence += 1
     end
   end
