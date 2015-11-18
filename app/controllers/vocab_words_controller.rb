@@ -30,29 +30,10 @@ class VocabWordsController < ApplicationController
     logger.debug "-----quiz_init-----"
     first = ResultList.first
 
-    index_list = ResultList.new
-    index_list.sessionid = session.id.to_s
-    index_list.descrip = "index"
-    index_list.s_value = ""
-    index_list.i_value = 0
-    index_list.seq = 0 # first.seq
-    index_list.save
-    # logger.debug "-----quiz_init-----" + first.id.to_s + "+++"
-    # result_list = ResultList.new
-    # result_list.sessionid = session.id.to_s
-    # result_list.descrip = "index"
-    # result_list.s_value = ""
-    # result_list.i_value = first.id
-    # result_list.seq = 0
-    # result_list.save
-
-    result_list = ResultList.new
-    result_list.sessionid = session.id.to_s
-    result_list.descrip = "starttime"
-    result_list.s_value = ""
-    result_list.i_value = Time.now.seconds_since_midnight
-    result_list.seq = 0
-    result_list.save
+    index_list = ResultList.create({sessionid: session.id.to_s, descrip: 'index', seq: 0})
+    correct_list = ResultList.create({sessionid: session.id.to_s, descrip: 'correct', i_value: 0})
+    miss_list = ResultList.create({sessionid: session.id.to_s, descrip: 'miss', i_value: 0})
+    result_list = ResultList.create({sessionid: session.id.to_s, descrip: 'starttime', i_value: Time.now.seconds_since_midnight})
 
     redirect_to :quiz_next
   end
@@ -60,7 +41,11 @@ class VocabWordsController < ApplicationController
   def quiz_correct
     logger.debug "-----quiz_correct-----"
     index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
-    @result_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq).first
+    @result_list = ResultList.where("sessionid=? and descrip='word' and seq=?", session.id.to_s, index_list.seq).first
+    index_list.update_attribute(:seq, @result_list.seq)
+
+    correct_list = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
+    correct_list.update(i_value: correct_list.i_value + 1)
 
     redirect_to :quiz_next
   end
@@ -68,12 +53,13 @@ class VocabWordsController < ApplicationController
   def quiz_miss
     logger.debug "-----quiz_miss-----"
     index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
-    miss_list = ResultList.where("sessionid=? and descrip='word' and seq=?", session.id.to_s, index_list.seq.to_s).first
-    logger.debug "----->" + miss_list.seq.to_s
+    @result_list = ResultList.where("sessionid=? and descrip='word' and seq=?", session.id.to_s, index_list.seq.to_s).first
     last = ResultList.order(seq: "desc").first
-    logger.debug "--->" + last.seq.to_s
-    logger.debug "-->" + miss_list.descrip
-    miss_list.update(seq: last.seq+1)
+    @result_list.update(i_value: last.i_value + 1)
+    index_list.update(seq: @result_list.seq)
+
+    miss_list = ResultList.where("sessionid=? and descrip='miss'", session.id.to_s).first
+    miss_list.update(i_value: miss_list.i_value + 1)
 
     redirect_to :quiz_next
   end
@@ -81,19 +67,13 @@ class VocabWordsController < ApplicationController
   def quiz_next
     logger.debug "-----quiz_next-----"
     index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
-    logger.debug "----" + index_list.seq.to_s
     word_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq)
-    @result_list = word_list.order(seq: 'asc').first
-    if (@result_list.nil?)
-      index = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
-      @word_count = ResultList.where("descrip='word'").count
+    if (word_list.empty?)
+      
       redirect_to :quiz_finish
     else
+      @result_list = word_list.order(seq: 'asc').first
       index_list.update(seq: @result_list.seq)
-    #   logger.debug "-----update index_list-----"
-    #   index_list.seq += 1
-    #   index_list.update
-    #   #ResultList.update(index.id, :i_value => index.i_value+1, :seq => @result_list.seq)
     end
   end
 
@@ -105,32 +85,15 @@ class VocabWordsController < ApplicationController
 
   def quiz_finish
     logger.debug "-----quiz_finish-----"
+    start_time = ResultList.where("sessionid=? and descrip='starttime'", session.id.to_s).first
     finish_time = Time.now.seconds_since_midnight.to_i
-    logger.debug "--" + finish_time.to_s
-    result_list = ResultList.new
-    result_list.sessionid = session.id.to_s
-    result_list.descrip = "endtime"
-    result_list.s_value = ""
-    result_list.i_value = finish_time
-    result_list.seq = 0
-    result_list.save
-    index = ResultList.where("sessionid=? and descrip='starttime'", session.id.to_s).first
-    logger.debug "---" + index.i_value.to_s
-    @elapsed_time = (finish_time - index.i_value).to_s
+    @elapsed_time = (finish_time - start_time.i_value).to_s
 
-    index = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
-    @word_count = index.i_value
-    # index = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
-    # @word_correct = index.i_value
-    @word_correct = 0
-    #
-    # get missed words
-    #
-    @missed_words = ResultList.where("sessionid=? and descrip='missed'", session.id.to_s)
-    @missed_words.each do |d|
-      logger.debug "--" + d.s_value
-    end
-    logger.debug "-----missed: " + @missed_words.to_s
+    correct = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
+    @correct_count = correct.i_value
+    miss = ResultList.where("sessionid=? and descrip='miss'", session.id.to_s).first
+    @miss_count = miss.i_value.to_s
+    @word_count = ResultList.where("descrip='word'").count
   end
 
   def next

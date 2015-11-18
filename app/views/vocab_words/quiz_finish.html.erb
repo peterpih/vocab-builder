@@ -4,8 +4,8 @@
 <br>
 	<h2>Total words: <%= @word_count.to_s %></h2>
 	<h2>Completed Time: <%= @elapsed_time %> secs</h2>
-	<h1><font color="lime">Number correct: <%= @word_correct.to_s %></font></h1>
-	<h1><font color="red">Number missed: <%= (@word_count - @word_correct).to_s %></font></h1>
+	<h1><font color="lime">Number correct: <%= @correct_count.to_s %></font></h1>
+	<h1><font color="red">Number missed: <%= @miss_count %></font></h1>
 	<br>
 <table>
   <thead>
@@ -13,14 +13,6 @@
       <th colspan="1"></th>
     </tr>
   </thead>
-
-  <tbody>
-    <% @missed_words.each do |d| %>
-      <tr>
-        <h2><font color="red"><%= d.s_value %></font></h2>
-      </tr>
-    <% end %>
-  </tbody>
 </table>
 <br>
 
