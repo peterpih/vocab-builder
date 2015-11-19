@@ -45,7 +45,7 @@ class VocabWordsController < ApplicationController
     index_list.update_attribute(:seq, @result_list.seq)
 
     correct_list = ResultList.where("sessionid=? and descrip='correct'", session.id.to_s).first
-    correct_list.update(i_value: correct_list.i_value + 1)
+    correct_list.update_attribute(:i_value, correct_list.i_value + 1)
 
     redirect_to :quiz_next
   end
@@ -55,11 +55,11 @@ class VocabWordsController < ApplicationController
     index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
     @result_list = ResultList.where("sessionid=? and descrip='word' and seq=?", session.id.to_s, index_list.seq.to_s).first
     last = ResultList.order(seq: "desc").first
-    @result_list.update(i_value: last.i_value + 1)
-    index_list.update(seq: @result_list.seq)
+    @result_list.update_attribute(:i_value, last.i_value + 1)
+    index_list.update_attribute(:seq, @result_list.seq)
 
     miss_list = ResultList.where("sessionid=? and descrip='miss'", session.id.to_s).first
-    miss_list.update(i_value: miss_list.i_value + 1)
+    miss_list.update_attribute(:i_value, miss_list.i_value + 1)
 
     redirect_to :quiz_next
   end
@@ -73,7 +73,7 @@ class VocabWordsController < ApplicationController
       redirect_to :quiz_finish
     else
       @result_list = word_list.order(seq: 'asc').first
-      index_list.update(seq: @result_list.seq)
+      index_list.update_attribute(:seq, @result_list.seq)
     end
   end
 
@@ -138,7 +138,7 @@ class VocabWordsController < ApplicationController
     @lesson_list = VocabWord.uniq.pluck(:lesson)
     # logger.debug @lesson_list.to_s
     # logger.debug "----" + @lesson_list.to_s + "-----"
-    # @lesson_list = @lesson_list.sort_by {|d| d.downcase}
+    @lesson_list = @lesson_list.sort_by {|d| d.downcase}
     @lesson_list
       @lesson_list.each do |d|
       logger.debug "-----" + d + "-----"
