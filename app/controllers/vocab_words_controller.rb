@@ -220,6 +220,40 @@ class VocabWordsController < ApplicationController
     end
   end
 
+  def block_text
+    logger.debug "-----Block Text-----"
+    logger.debug "-----" + params.inspect
+    logger.debug "-----" + params[:lock].inspect + "+++"
+    t = {}
+    t = params[:textblock]
+    logger.debug "=====" + t.inspect
+
+    if !params[:text_chunk].nil? and !params[:lesson].nil?
+      result = Hash.new(0)
+      words = params[:text_chunk].split(/\W+/)
+      t = params[:text_chunk].downcase.gsub(/[^\w\s\d]/, '')
+      logger.debug "-----" + t.inspect + "+++"
+      words = t.split(/\W+/)
+      logger.debug words.inspect
+      logger.debug ">>>>>" + words.to_s
+      words.each { |w| result[w] += 1 }
+      logger.debug result.inspect
+      result.keys.each do |k|
+        word = VocabWord.new({word: k, lesson: params[:lesson]})
+        word.save
+        logger.debug "---" + k.to_s
+      end
+    else
+      flash[:notice] = "Hello"
+    end
+
+  end
+
+  def block_text2
+    logger.debug "-----Block Text2-----"
+    logger.debug "-----" + params.inspect
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vocab_word

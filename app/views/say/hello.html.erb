@@ -6,9 +6,48 @@
 </p>
 <p>
 	Time to say
-	<%= link_to "Goodbye", say_goodbye_path %><br>
-	<%= link_to "Go Back To Top", root_path %>
+  
+  <%= link_to "Goodbye", say_goodbye_path %><br>
+	<%= link_to "Go Back To Top", root_path %> <br />
+
+
+    <%= check_box_tag("post1") %>
+    <%= label_tag("post1") %><br />
+    <%= check_box_tag("checkbox['post2']") %> 
+    <%= label_tag("checkbox['post2']") %><br />
+    <%= check_box_tag("checkbox['post3']") %> 
+    <%= label_tag("checkbox['post3']") %><br />
+    <br />
+
+    <%- my_list = ["hello2", "goodbye2"] %>
+
+    <%= form_tag(say_test_path, method: "get") do %>
+      <% my_list.each do |d| %>
+        <%= radio_button_tag("group1", d) %>
+        <%= label_tag("group1[#{d}]", d) %> <br />
+      <% end %>
+      <%= submit_tag("Submit") %>
+    <% end %>
+
+
+    <%= radio_button_tag("group1", "hello", false,{checked: "no", id: "stop"}) %>
+    <%= label_tag("group1_hello", "hello") %> <br />
+    <%= radio_button_tag("group1", "goodbye") %>
+    <%= label_tag("group1_goodbye", "goodbye") %> <br />
+    <br />
+
+    <%= form_for(:message) do |f| %>
+      <%= f.radio_button :new, 'email', :checked => true %> 
+      <%= f.label :new, 'Email', value: 'email' %>
+      <%= f.radio_button :delete, 'sms' %>
+      <%= f.label :delete, 'SMS', value: 'sms' %>
+<% end %>
+
+  
 </p>
+
+<%- @any = ["hello", "goodbye"] %>
+<%= @any %>
 
 <h1>Say#hello</h1>
 <p>Find me in app/views/say/hello.html.erb</p>

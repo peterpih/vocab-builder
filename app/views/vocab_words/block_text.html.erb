@@ -1,0 +1,15 @@
+<h1>Block Text (1) Input</h1>
+<br />
+<%= form_tag(action: "block_text", method: "get") do %>
+ <br />
+  <%= label_tag("lesson", "Lesson: ") %>
+  <%= text_field_tag("lesson") %>
+  <br />
+  <br />
+  <%= label_tag("text_chunk", "Bulk Text: ") %>
+  <br />
+  <%= text_area_tag("text_chunk", nil, size: "50x30") %>
+  <%= submit_tag "Submit" %>
+  <%= link_to("Submit") %>
+<% end %>
+<br />

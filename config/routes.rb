@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'say/hello'
   get 'say/goodbye'
+  get 'say/test'
   get :next_word, to: "vocab_words#next", as: :next_word
   get :unique_lesson, to: "vocab_words#unique_lessons", as: :unique_lesson
   get 'vocab_words/unique_lessons'
@@ -15,6 +16,10 @@ Rails.application.routes.draw do
   get :quiz_finish, to: "vocab_words#quiz_finish", as: :quiz_finish
   get :quiz_correct, to: "vocab_words#quiz_correct", as: :quiz_correct
   get :quiz_test, to: "vocab_words#quiz_test", as: :quiz_test
+  get :hash_text, to: "vocab_words#hash_text", as: :hash_text
+  get 'vocab_words/block_text'
+  post 'vocab_words/block_text'
+  get 'vocab_words/block_text2'
   #get :top to: "welcome#index", as: :top
   #get 'vocab_words/index'
 
