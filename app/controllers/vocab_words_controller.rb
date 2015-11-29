@@ -135,10 +135,9 @@ class VocabWordsController < ApplicationController
 
   def unique_lessons
     logger.debug "-----unique_lesson-----"
-    @lesson_list = VocabWord.uniq.pluck(:lesson)
-    # logger.debug @lesson_list.to_s
-    # logger.debug "----" + @lesson_list.to_s + "-----"
-    @lesson_list = @lesson_list.sort_by {|d| d.downcase}
+    @lesson_list = VocabWord.uniq.pluck(:lesson).sort_by {|d| d.downcase}
+    #@lesson_list = @lesson_list.sort_by {|d| d.downcase}
+    flash[:notice] = "Please choose one or more lesson(s)"
     @lesson_list
       @lesson_list.each do |d|
       logger.debug "-----" + d + "-----"
@@ -149,31 +148,34 @@ class VocabWordsController < ApplicationController
   def choose_lesson
     logger.debug "-----choose_lesson-----"
     @use_lessons = params[:checkbox]
-    logger.debug "-----" + params[:checkbox].to_s
+    logger.debug "-----" + params[:checkbox].inspect
+    if params[:checkbox].nil?
+      flash[:alert] = "No lesson(s) chosen"
+      redirect_to :back
+    else
+      logger.debug "hello"
 
-    @quiz_word = []
-    @use_lessons.each do |d, y|
-      @quiz_word += VocabWord.where("lesson=?", d)
-      logger.debug @quiz_word
-    end
+      logger.debug "did I get here?"
 
-    @quiz_word2 = []
-    @use_lessons.each do |d, y|
-      @quiz_word2 += VocabWord.where("lesson=?", d)
-      logger.debug @quiz_word2
-    end
+      @quiz_word = []
+      @use_lessons.each do |k, v|
+        @quiz_word += VocabWord.where("lesson=?", v)
+        logger.debug @quiz_word
+      end
 
-    result_lists = ResultList.all
-    result_lists.delete_all
+      n = @quiz_word.size
+      @quiz_word2 = @quiz_word.drop(n/2) + @quiz_word.take(n/2)
 
-    sequence = 1
-    @quiz_word2.shuffle!
-    @quiz_word2.shuffle!
-    @quiz_word.zip(@quiz_word2).each do |d1, d2|
-      s = d1.word + " " + d2.word
-      result_list = ResultList.new({sessionid: session.id.to_s, descrip: "word", s_value: s, seq: sequence})
-      result_list.save
-      sequence += 1
+      result_lists = ResultList.all
+      result_lists.delete_all
+
+      sequence = 1
+      @quiz_word.zip(@quiz_word2).each do |d1, d2|
+        s = d1.word + " " + d2.word
+        result_list = ResultList.new({sessionid: session.id.to_s, descrip: "word", s_value: s, seq: sequence})
+        result_list.save
+        sequence += 1
+      end
     end
   end
 
@@ -230,12 +232,10 @@ class VocabWordsController < ApplicationController
 
     if !params[:text_chunk].nil? and !params[:lesson].nil?
       result = Hash.new(0)
-      words = params[:text_chunk].split(/\W+/)
-      t = params[:text_chunk].downcase.gsub(/[^\w\s\d]/, '')
-      logger.debug "-----" + t.inspect + "+++"
-      words = t.split(/\W+/)
-      logger.debug words.inspect
-      logger.debug ">>>>>" + words.to_s
+      s = params[:text_chunk].downcase.gsub(/\"|,|;|\.|!|\?/,'')
+      s = s.gsub(/wilma/,'Wilma').gsub(/floppy/,'Floppy').gsub(/biff/,'Biff').gsub(/anneena/,'Anneena')
+      s = s.gsub(/chip/,'Chip').gsub(/\s+i\s+/,' I ').gsub(/^i\s+/,"I ")
+      words = s.split(/\s+/)
       words.each { |w| result[w] += 1 }
       logger.debug result.inspect
       result.keys.each do |k|
