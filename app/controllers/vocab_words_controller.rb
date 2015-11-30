@@ -162,19 +162,33 @@ class VocabWordsController < ApplicationController
         @quiz_word += VocabWord.where("lesson=?", v)
         logger.debug @quiz_word
       end
-
-      n = @quiz_word.size
-      @quiz_word2 = @quiz_word.drop(n/2) + @quiz_word.take(n/2)
-
+      # clear out old ResultList
       result_lists = ResultList.all
       result_lists.delete_all
 
-      sequence = 1
-      @quiz_word.zip(@quiz_word2).each do |d1, d2|
-        s = d1.word + " " + d2.word
-        result_list = ResultList.new({sessionid: session.id.to_s, descrip: "word", s_value: s, seq: sequence})
-        result_list.save
-        sequence += 1
+      if (@quiz_word.size <= 25)  # Word Wall size
+        sequence = 1
+        @quiz_word.shuffle!
+        @quiz_word.each do |d|
+          result_list = ResultList.new({sessionid: session.id.to_s, descrip: "word", s_value: d.word, seq: sequence})
+          result_list.save
+          sequence += 1
+        end
+      else
+        n = @quiz_word.size
+        @quiz_word2 = @quiz_word.take(n/2)
+        logger.debug "-----" + @quiz_word2.inspect
+        logger.debug "-----quiz_word2 " + @quiz_word2.size.to_s + "+++" + n.to_s + "+++"
+        @quiz_word = @quiz_word.drop(n/2)
+        logger.debug "-----quiz_word " + @quiz_word.size.to_s + "+++"
+
+        sequence = 1
+        @quiz_word.zip(@quiz_word2).each do |d1, d2|
+          s = d1.word + " " + d2.word
+          result_list = ResultList.new({sessionid: session.id.to_s, descrip: "word", s_value: s, seq: sequence})
+          result_list.save
+          sequence += 1
+        end
       end
     end
   end
@@ -234,14 +248,22 @@ class VocabWordsController < ApplicationController
       result = Hash.new(0)
       s = params[:text_chunk].downcase.gsub(/\"|,|;|\.|!|\?/,'')
       s = s.gsub(/wilma/,'Wilma').gsub(/floppy/,'Floppy').gsub(/biff/,'Biff').gsub(/anneena/,'Anneena')
-      s = s.gsub(/chip/,'Chip').gsub(/\s+i\s+/,' I ').gsub(/^i\s+/,"I ")
+      s = s.gsub(/chip/,'Chip').gsub(/wilf/,'Wilf').gsub(/nadim/,'Nadim')
+      s = s.gsub(/\s+i\s+/,' I ').gsub(/^i\s+/,"I ")
       words = s.split(/\s+/)
       words.each { |w| result[w] += 1 }
       logger.debug result.inspect
       result.keys.each do |k|
-        word = VocabWord.new({word: k, lesson: params[:lesson]})
+        t = VocabWord.where(word: k).first
+        if t.nil?
+          new_word = true
+          logger.debug "---new word " + k.to_s
+        else
+          new_word = false
+          logger.debug "---already there -> " + k.to_s + "+++"
+        end
+        word = VocabWord.new({word: k, lesson: params[:lesson], new_flag: new_word})
         word.save
-        logger.debug "---" + k.to_s
       end
     else
       flash[:notice] = "Hello"

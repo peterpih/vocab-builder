@@ -3,14 +3,16 @@
 <br>
 
 <%= form_tag(choose_lesson_path, method: "get") do %>
+  <%- k = 0 %>
   <% @lesson_list.each do |d| %>
     <br>
+    <%= k = k + 1 %>
     <%= check_box_tag "checkbox[#{d}]", d %>
     <%= label_tag "checkbox[#{d}]", d %>
   <% end %>
   <br>
   <br>
-  <%= link_to 'Cancel', root_path, {class: 'med_button'} %> 
+  <%= link_to 'Home', root_path, {class: 'med_button'} %> 
   <%= link_to 'New', choose_lesson_path, {class: 'med_button'} %> 
   <div class='med_button'>
   <%= submit_tag("Button", class: 'submit_button') %>
