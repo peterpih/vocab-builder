@@ -2,10 +2,10 @@
 %p in views/welcome/index.html.erb
 %div#whole_page
 	%div#nav_column
-		%a= link_to 'Say Examples', say_hello_path, {class: 'nav_button'}
-		%a= link_to 'Unique Lesson', unique_lesson_path, {class: 'nav_button'}
-		%a= link_to 'Block Text', vocab_words_block_text_path, {class: 'sml_button'}
-		%a= link_to 'Test', '/', {class: 'sml_button'}
+		%a= link_to 'Say', say_hello_path, {class: 'nav_button'}
+		%a= link_to 'Lessons', unique_lesson_path, {class: 'nav_button'}
+		%a= link_to 'Text-In', vocab_words_block_text_path, {class: 'sml_button'}
+		%a= link_to 'Animals', new_animal_path, {class: 'sml_button'}
 	%section#body_column
 		%a= link_to 'Word Quiz', :unique_lesson, {class: 'big_button'}
 		%br
