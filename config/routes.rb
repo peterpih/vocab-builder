@@ -20,12 +20,17 @@ Rails.application.routes.draw do
   get 'vocab_words/block_text'
   post 'vocab_words/block_text'
   get 'vocab_words/block_text2'
+
+  post '/captchas', to: "animals#create"
+
   #get :top to: "welcome#index", as: :top
   #get 'vocab_words/index'
 
   resources :vocab_words
   resources :result_lists
   resources :stop_watches
+  resources :animals
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
