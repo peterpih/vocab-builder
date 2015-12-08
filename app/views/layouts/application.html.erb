@@ -7,9 +7,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body class='<%= controller.controller_name %>'>
-  <div id="banner">
-    <%= @page_title || "William's Vocabulary Builder" %>
-  </div>
+  <div id="banner"> <%= @page_title || "William's Vocabulary Builder" %> </div>
+  <br />
+  <% if flash[:alert] %>
+    <div class="notice">>>> ALERT: <%= flash[:alert] %> <<<</div>
+    <br />
+  <% end %>
+  <% if flash[:notice] %>
+    <div class="notice">NOTICE: <%= flash[:notice] %></div>
+    <br />
+  <% end %>
+
 
   <div id="main"
 		<%= yield %>
