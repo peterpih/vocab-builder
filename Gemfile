@@ -35,6 +35,7 @@ gem 'puma'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem "recaptcha", require: "recaptcha/rails", github: "ambethia/recaptcha"
 #gem 'heroku'
 
 group :development, :test do

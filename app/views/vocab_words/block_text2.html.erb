@@ -1,0 +1,6 @@
+<h1>Block Text (2) Input</h1>
+<%= form_tag(action: "block_text2", method: "get") do %>
+  <%= text_area("block", "tool", size: "50x100") %>
+  <%= link_to("Submit", vocab_words_block_text_path) %>
+<% end %>
+<br />
