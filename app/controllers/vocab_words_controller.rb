@@ -182,6 +182,17 @@ class VocabWordsController < ApplicationController
         @quiz_word = @quiz_word.drop(n/2)
         logger.debug "-----quiz_word " + @quiz_word.size.to_s + "+++"
 
+        if (@quiz_word.size > @quiz_word2.size)
+          @quiz_word2 << @quiz_word.first
+        elsif (@quiz_word.size < @quiz_word2.size)
+          @quiz_word << @quiz_word2.first 
+        end
+        logger.debug ">>>>>quiz_word2 " + @quiz_word2.size.to_s + "+++" + n.to_s + "+++"
+        logger.debug ">>>>>quiz_word " + @quiz_word.size.to_s + "+++"   
+        
+        @quiz_word.shuffle!
+        @quiz_word2.shuffle!
+
         sequence = 1
         @quiz_word.zip(@quiz_word2).each do |d1, d2|
           s = d1.word + " " + d2.word
@@ -247,9 +258,13 @@ class VocabWordsController < ApplicationController
     if !params[:text_chunk].nil? and !params[:lesson].nil?
       result = Hash.new(0)
       s = params[:text_chunk].downcase.gsub(/\"|,|;|\.|!|\?/,'')
-      s = s.gsub(/wilma/,'Wilma').gsub(/floppy/,'Floppy').gsub(/biff/,'Biff').gsub(/anneena/,'Anneena')
-      s = s.gsub(/chip/,'Chip').gsub(/wilf/,'Wilf').gsub(/nadim/,'Nadim')
+
+      # maintain some proper nouns
+      s = s.gsub(/wilf/,'Wilf').gsub(/wilma/,'Wilma').gsub(/anneena/,'Anneena').gsub(/nadim/,'Nadim')
+      s = s.gsub(/chip/,'Chip').gsub(/biff/,'Biff').gsub(/kipper/,'Kipper').gsub(/floppy/,'Floppy')
+      s = s.gsub(/scotland/,'Scotland')
       s = s.gsub(/\s+i\s+/,' I ').gsub(/^i\s+/,"I ")
+      
       words = s.split(/\s+/)
       words.each { |w| result[w] += 1 }
       logger.debug result.inspect
