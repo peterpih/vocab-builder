@@ -2,18 +2,21 @@
 %p in views/welcome/index.html.erb
 %div#whole_page
 	%div#nav_column
-		%a= link_to 'Say', say_hello_path, {class: 'nav_button'}
+		%a= link_to 'Add Word', new_vocab_word_path, {class: 'nav_button'}
+		%a= link_to 'Add Bulk', vocab_words_block_text_path, {class: 'nav_button'}
+		%a= link_to 'Word List', vocab_words_path, {class: 'nav_button'}
 		%a= link_to 'Lessons', unique_lesson_path, {class: 'nav_button'}
-		%a= link_to 'Text-In', vocab_words_block_text_path, {class: 'sml_button'}
-		%a= link_to 'Animals', new_animal_path, {class: 'sml_button'}
+		%a= link_to 'Say', say_hello_path, {class: 'sml_button'}
+		%a= link_to 'reCAPTCHA', new_animal_path, {class: 'med_button'}
+		%a= link_to 'Empty', "#", {class: 'button'}
 	%section#body_column
 		%a= link_to 'Word Quiz', :unique_lesson, {class: 'big_button'}
 		%br
+		%a= link_to 'Spelling Quiz', :unique_lesson, {class: 'big_button'}
 		%br
-		%a= link_to 'Add Words', new_vocab_word_path, {class: 'med_button'}
-		%a= link_to 'Word List', vocab_words_path, {class: 'med_button'}
-		%a= link_to 'Empty', "#", {class: 'button'}
+		%a= link_to 'Writing Quiz', :unique_lesson, {class: 'big_button'}
 		%br
+		%a= link_to 'Number Quiz', :unique_lesson, {class: 'big_button'}
 
 <a href="tel:+447712442633">Call me</a>
 %a= link_to 'Call me', "tel:+447712442633"

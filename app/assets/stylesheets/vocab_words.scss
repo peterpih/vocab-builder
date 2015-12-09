@@ -64,7 +64,7 @@ whole_page{
 	border-radius: 50px;
   margin: 0px 0px 0px 0px;
   padding: 15px;
-  position: realtive;
+  position: relative;
   transition: all 1s ease;
 
   &:hover{
@@ -101,6 +101,22 @@ whole_page{
     background-color: blue;
     
 	}
+}
+
+.submit_button{
+  @extend .button;
+    font-size: 24px;
+    line-height: 50px;
+    height: 70px;
+    width: 150px;
+    margin: 10px auto;
+    padding: 0px;
+    background-color: white;
+
+  &:hover{
+    background-color: green;
+    
+  }
 }
 
 .sml_button{

@@ -2,14 +2,15 @@
 <br />
 <%= form_tag(action: "block_text", method: "get") do %>
  <br />
-  <%= label_tag("lesson", "Lesson: ") %>
+  <%= label_tag("lesson", "Lesson Name: ") %>
   <%= text_field_tag("lesson") %>
   <br />
   <br />
   <%= label_tag("text_chunk", "Bulk Text: ") %>
   <br />
-  <%= text_area_tag("text_chunk", nil, size: "50x30") %>
-  <%= submit_tag "Submit" %>
-  <%= link_to("Submit") %>
+  <%= text_area_tag("text_chunk", nil, size: "50x20") %>
+  <br />
+  <%= link_to 'Home', root_path, {class: 'med_button'} %> 
+  <%= submit_tag("Submit", class: 'submit_button') %>
 <% end %>
 <br />
