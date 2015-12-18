@@ -66,7 +66,8 @@ class VocabWordsController < ApplicationController
 
   def quiz_next
     logger.debug "-----quiz_next-----"
-    index_list = ResultList.where("sessionid=? and descrip='index'", session.id.to_s).first
+    index_list = ResultList.where({sessionid: session.id.to_s, descrip: 'index'}).first
+    @count_list = ResultList.where({sessionid: session.id.to_s, descrip: 'count'}).first
     word_list = ResultList.where("sessionid=? and descrip='word' and seq > ?", session.id.to_s, index_list.seq)
     if (word_list.empty?)
       
@@ -155,13 +156,15 @@ class VocabWordsController < ApplicationController
     else
       logger.debug "hello"
 
-      logger.debug "did I get here?"
-
       @quiz_word = []
       @use_lessons.each do |k, v|
-        @quiz_word += VocabWord.where("lesson=?", v)
+        @quiz_word += VocabWord.where({lesson: v, new_flag: true})
         logger.debug @quiz_word
       end
+      # @use_lessons.each do |k, v|
+      #   @new_count += VocabWord.where("lesson=?", v).count
+      #   logger.debug @quiz_word
+      # end
       # clear out old ResultList
       result_lists = ResultList.all
       result_lists.delete_all
@@ -174,33 +177,39 @@ class VocabWordsController < ApplicationController
           result_list.save
           sequence += 1
         end
+        @count_list = ResultList.new({sessionid: session.id.to_s, descrip: "count", i_value: sequence-1, seq: 0})
+        @count_list.save
+        logger.debug "-----save count-----"
       else
         n = @quiz_word.size
+        logger.debug "-----quiz_word.size-----" + @quiz_word.size.to_s + "+++"
         @quiz_word2 = @quiz_word.take(n/2)
-        logger.debug "-----" + @quiz_word2.inspect
         logger.debug "-----quiz_word2 " + @quiz_word2.size.to_s + "+++" + n.to_s + "+++"
-        @quiz_word = @quiz_word.drop(n/2)
-        logger.debug "-----quiz_word " + @quiz_word.size.to_s + "+++"
+        @quiz_word3 = @quiz_word.drop(n/2)
+        logger.debug "-----quiz_word " + @quiz_word3.size.to_s + "+++"
 
-        if (@quiz_word.size > @quiz_word2.size)
-          @quiz_word2 << @quiz_word.first
-        elsif (@quiz_word.size < @quiz_word2.size)
+        if (@quiz_word3.size > @quiz_word2.size)
+          @quiz_word2 << @quiz_word3.first
+        elsif (@quiz_word3.size < @quiz_word2.size)
           @quiz_word << @quiz_word2.first 
         end
         logger.debug ">>>>>quiz_word2 " + @quiz_word2.size.to_s + "+++" + n.to_s + "+++"
-        logger.debug ">>>>>quiz_word " + @quiz_word.size.to_s + "+++"   
+        logger.debug ">>>>>quiz_word3 " + @quiz_word3.size.to_s + "+++"   
         
-        @quiz_word.shuffle!
+        @quiz_word3.shuffle!
         @quiz_word2.shuffle!
 
         sequence = 1
-        @quiz_word.zip(@quiz_word2).each do |d1, d2|
+        @quiz_word3.zip(@quiz_word2).each do |d1, d2|
           s = d1.word + " " + d2.word
           result_list = ResultList.new({sessionid: session.id.to_s, descrip: "word", s_value: s, seq: sequence})
           result_list.save
           sequence += 1
         end
       end
+      #logger.debug "-----count-----" + word_count.to_s + "+++"
+      @max_sequence = sequence
+      logger.debug "-----max_sequence-----" + @max_sequence.to_s + "+++"
     end
   end
 

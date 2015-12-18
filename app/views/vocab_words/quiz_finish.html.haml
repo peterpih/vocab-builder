@@ -1,0 +1,24 @@
+
+%br
+%br
+%br
+%div#whole_page
+  %div#nav_column
+    %h2 Word Count: #{@word_count}
+    %h2 Time: #{@elapsed_time} secs
+  %section#body_column
+    %h1{fontcolor: "lime"} Number correct: #{@correct_count}
+    %h1{fontcolor: "red"} Number missed: #{@miss_count}
+    %br>
+
+    %table>
+      %thead>
+        %tr
+          %th colspan="1"
+%br
+%br
+%br
+%a= link_to "Finished", :root, {class: 'nav_button'}
+%br
+%br
+%p= Time.now

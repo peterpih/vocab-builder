@@ -2,11 +2,12 @@
 %br
 %br
 %div#whole_page
-	%div#nav_column
-		%a= link_to "Miss", :quiz_miss, {class: 'nav_button'}
-		%a= link_to "Home", root_path, {class: 'nav_button'}
-	%section#body_column
-		%a= link_to @result_list.s_value, :quiz_correct, {class: 'word_button'}
+  %div#nav_column
+    %p= @result_list.seq.to_s + "/" + @count_list.i_value.to_s
+    %a= link_to "Miss", :quiz_miss, {class: 'nav_button'}
+    %a= link_to "Home", :root, {class: 'nav_button'}
+  %section#body_column
+    %a= link_to @result_list.s_value, :quiz_correct, {class: 'word_button'}
 %br
 %br
 %br
