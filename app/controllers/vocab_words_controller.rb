@@ -31,7 +31,7 @@ class VocabWordsController < ApplicationController
     first = ResultList.first
 
     index_list = ResultList.create({sessionid: session.id.to_s, descrip: 'index', seq: 0})
-    correct_list = ResultList.create({sessionid: session.id.to_s, descrip: 'correct', i_value: 0})
+    @correct_list = ResultList.create({sessionid: session.id.to_s, descrip: 'correct', i_value: 0})
     miss_list = ResultList.create({sessionid: session.id.to_s, descrip: 'miss', i_value: 0})
     result_list = ResultList.create({sessionid: session.id.to_s, descrip: 'starttime', i_value: Time.now.seconds_since_midnight})
 
@@ -177,9 +177,6 @@ class VocabWordsController < ApplicationController
           result_list.save
           sequence += 1
         end
-        @count_list = ResultList.new({sessionid: session.id.to_s, descrip: "count", i_value: sequence-1, seq: 0})
-        @count_list.save
-        logger.debug "-----save count-----"
       else
         n = @quiz_word.size
         logger.debug "-----quiz_word.size-----" + @quiz_word.size.to_s + "+++"
@@ -207,9 +204,9 @@ class VocabWordsController < ApplicationController
           sequence += 1
         end
       end
-      #logger.debug "-----count-----" + word_count.to_s + "+++"
-      @max_sequence = sequence
-      logger.debug "-----max_sequence-----" + @max_sequence.to_s + "+++"
+      @count_list = ResultList.new({sessionid: session.id.to_s, descrip: "count", i_value: sequence-1, seq: 0})
+      @count_list.save
+      logger.debug "-----save count-----"
     end
   end
 
